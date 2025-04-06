@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        spartan: '#8B0000',
+                        olympus: '#4682B4',
+                        norse: '#2F4F4F',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .blood-splatter {
+            position: relative;
+        }
+        .blood-splatter::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M30,50 Q40,30 50,50 Q60,70 70,50 Q80,30 50,10 Q20,30 30,50 Z" fill="rgba(139,0,0,0.1)"/></svg>');
+            background-size: 200px;
+            background-repeat: repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .weapon-icon {
+            transition: all 0.3s ease;
+        }
+        .weapon-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+    <title>Kratos - The Ghost of Sparta</title>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans blood-splatter">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-gray-800 to-gray-900 py-6 shadow-xl sticky top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-skull text-spartan text-2xl"></i>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-spartan to-orange-500 bg-clip-text text-transparent">KRATOS</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#about" class="hover:text-spartan transition-colors">About</a></li>
+                    <li><a href="#battles" class="hover:text-spartan transition-colors">Gods Defeated</a></li>
+                    <li><a href="#disclaimer" class="hover:text-spartan transition-colors">Disclaimer</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0 animate-fade-in">
+                <h2 class="text-4xl md:text-6xl font-bold mb-4">KRATOS</h2>
+                <h3 class="text-2xl md:text-3xl text-spartan mb-6">The Ghost of Sparta</h3>
+                <p class="text-lg mb-6">Once a mortal Spartan warrior, now the God of War who challenged and destroyed the pantheons of Olympus and the Norse realms.</p>
+                <div class="flex space-x-4">
+                    <span class="px-4 py-2 bg-spartan rounded-full text-sm font-semibold">Greek Mythology</span>
+                    <span class="px-4 py-2 bg-norse rounded-full text-sm font-semibold">Norse Mythology</span>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center animate-fade-in" style="animation-delay: 0.2s;">
+                <img src="https://c4.wallpaperflare.com/wallpaper/141/8/867/kratos-throne-4k-8k-wallpaper-preview.jpg" alt="Kratos" class="max-w-xs md:max-w-md transform -rotate-6 hover:rotate-0 transition-transform duration-500">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-10 text-center">The Spartan's Journey</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-helmet-battle text-4xl text-spartan mb-3"></i>
+                        <h3 class="text-xl font-semibold mb-2">Spartan General</h3>
+                    </div>
+                    <p>Kratos was once a respected general in the Spartan army. His ruthless tactics and unmatched combat skills made him feared across Greece.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-hand-holding-magic text-4xl text-olympus mb-3"></i>
+                        <h3 class="text-xl font-semibold mb-2">Servant of Ares</h3>
+                    </div>
+                    <p>After nearly dying in battle, Kratos pledged himself to Ares, the God of War, gaining immense power but becoming a pawn in divine schemes.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-crown text-4xl text-orange-500 mb-3"></i>
+                        <h3 class="text-xl font-semibold mb-2">God of War</h3>
+                    </div>
+                    <p>After defeating Ares, Kratos ascended to become the new God of War, but his reign was marked by conflict with the other Olympians.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gods Defeated Section -->
+    <section id="battles" class="py-16 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-10 text-center">Gods Defeated by Kratos</h2>
+            
+            <!-- Greek Pantheon -->
+            <div class="mb-16">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-landmark text-2xl text-olympus mr-3"></i>
+                    <h3 class="text-2xl font-semibold text-olympus">Olympian Gods</h3>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Ares -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-spartan">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Ares</h4>
+                            <div class="weapon-icon" title="Blade of the Gods">
+                                <i class="fas fa-sword text-spartan text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Athens</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Blade of the Gods</p>
+                        <p>Kratos' former patron and the original God of War. Defeated when Kratos used Pandora's Box to grow to god-like size.</p>
+                    </div>
+                    
+                    <!-- Athena -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-olympus">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Athena</h4>
+                            <div class="weapon-icon" title="Blade of Olympus">
+                                <i class="fas fa-sword text-orange-500 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Mount Olympus</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Blade of Olympus</p>
+                        <p>Goddess of Wisdom who helped Kratos but ultimately stood in his way. Kratos impaled himself with the Blade of Olympus to release Hope, killing Athena in the process.</p>
+                    </div>
+                    
+                    <!-- Zeus -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-orange-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Zeus</h4>
+                            <div class="weapon-icon" title="Blade of Olympus">
+                                <i class="fas fa-bolt text-yellow-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Mount Olympus</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Blade of Olympus</p>
+                        <p>The King of the Gods and Kratos' father. After a prolonged battle, Kratos used the power of Hope to defeat Zeus, beating him to death with his bare hands.</p>
+                    </div>
+                    
+                    <!-- Hades -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-purple-600">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Hades</h4>
+                            <div class="weapon-icon" title="Claws of Hades">
+                                <i class="fas fa-skull text-purple-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Underworld</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Claws of Hades</p>
+                        <p>God of the Underworld. Kratos ripped out Hades' soul using his own weapon, the Claws of Hades, killing him and causing the Underworld to collapse.</p>
+                    </div>
+                    
+                    <!-- Poseidon -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-blue-400">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Poseidon</h4>
+                            <div class="weapon-icon" title="Blades of Exile">
+                                <i class="fas fa-water text-blue-300 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Aegean Sea</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Blades of Exile</p>
+                        <p>God of the Sea. Kratos brutally beat Poseidon to death, gouging out his eyes before snapping his neck, causing massive floods across Greece.</p>
+                    </div>
+                    
+                    <!-- Hermes -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-green-400">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Hermes</h4>
+                            <div class="weapon-icon" title="Blades of Athena">
+                                <i class="fas fa-running text-green-300 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Mount Olympus</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Blades of Athena</p>
+                        <p>Messenger God. After a lengthy chase, Kratos cut off Hermes' legs, leaving him to bleed out, gaining the Boots of Hermes in the process.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Norse Pantheon -->
+            <div>
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-mountain text-2xl text-norse mr-3"></i>
+                    <h3 class="text-2xl font-semibold text-norse">Norse Gods</h3>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Baldur -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-green-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Baldur</h4>
+                            <div class="weapon-icon" title="Leviathan Axe">
+                                <i class="fas fa-snowflake text-blue-300 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Jötunheim</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Leviathan Axe</p>
+                        <p>The Norse God of Light, invulnerable to all threats except mistletoe. After a prolonged battle across realms, Kratos broke Baldur's neck to protect Freya.</p>
+                    </div>
+                    
+                    <!-- Magni and Modi -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-yellow-400">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Magni & Modi</h4>
+                            <div class="weapon-icon" title="Leviathan Axe & Blades of Chaos">
+                                <i class="fas fa-axe text-norse text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Thamur's Corpse</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Leviathan Axe & Blades of Chaos</p>
+                        <p>Sons of Thor. Kratos killed Modi by smashing his face into Thamur's chisel. Magni was impaled by Kratos with his own sword after Atreus shocked him with lightning.</p>
+                    </div>
+                    
+                    <!-- Heimdall -->
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-purple-400">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold">Heimdall</h4>
+                            <div class="weapon-icon" title="Draupnir Spear">
+                                <i class="fas fa-eye text-purple-300 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-2"><strong>Location:</strong> Asgard</p>
+                        <p class="text-gray-300 mb-3"><strong>Weapon:</strong> Draupnir Spear</p>
+                        <p>The all-seeing watchman of Asgard. After an intense battle where Kratos outsmarted Heimdall's precognition, he stabbed Heimdall through the neck with the Draupnir Spear.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weapons Showcase -->
+    <section class="py-16 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-10 text-center">Signature Weapons</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg text-center hover:bg-gray-600 transition-colors">
+                    <div class="mb-4">
+                        <i class="fas fa-fire text-5xl text-orange-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Blades of Chaos</h3>
+                    <p class="mb-3">Chained blades forged in the depths of Hades, gifted by Ares. Kratos' primary weapons in Greece.</p>
+                    <span class="px-3 py-1 bg-spartan rounded-full text-xs font-semibold">Greek Era</span>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg text-center hover:bg-gray-600 transition-colors">
+                    <div class="mb-4">
+                        <i class="fas fa-axe text-5xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Leviathan Axe</h3>
+                    <p class="mb-3">Magical frost axe created by the dwarves Brok and Sindri as a counterpart to Thor's hammer.</p>
+                    <span class="px-3 py-1 bg-norse rounded-full text-xs font-semibold">Norse Era</span>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg text-center hover:bg-gray-600 transition-colors">
+                    <div class="mb-4">
+                        <i class="fas fa-ring text-5xl text-yellow-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Draupnir Spear</h3>
+                    <p class="mb-3">Magical spear that can multiply itself, created to counter Heimdall's precognition.</p>
+                    <span class="px-3 py-1 bg-norse rounded-full text-xs font-semibold">Norse Era</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section id="disclaimer" class="py-16 bg-gray-900">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <div class="bg-gray-800 p-8 rounded-lg border border-gray-700">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-exclamation-triangle text-2xl text-yellow-500 mr-3"></i>
+                    <h2 class="text-2xl font-bold">Disclaimer</h2>
+                </div>
+                <div class="space-y-4">
+                    <p>This website is created solely for educational and informational purposes about the character Kratos from the God of War video game series.</p>
+                    <p>All content related to God of War, including characters, stories, and imagery, are the intellectual property of Sony Interactive Entertainment and Santa Monica Studio.</p>
+                    <p>This is a non-commercial fan site with no intention of copyright infringement. The information presented here is based on the God of War video game series and associated lore.</p>
+                    <p>All trademarks and copyrighted materials are the property of their respective owners.</p>
+                    <div class="mt-6 p-4 bg-gray-700 rounded-lg">
+                        <p class="font-semibold text-yellow-400">Fair Use Disclaimer:</p>
+                        <p class="text-sm">Under Section 107 of the Copyright Act 1976, allowance is made for "fair use" for purposes such as criticism, comment, news reporting, teaching, scholarship, and research.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-gray-800 border-t border-gray-700">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-skull text-spartan text-xl"></i>
+                        <span class="font-bold">KRATOS</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">The Ghost of Sparta</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-spartan transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-spartan transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-spartan transition-colors"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 Kratos Fan Site. All game content is property of Sony Interactive Entertainment.</p>
+                <p class="mt-1">This site is not affiliated with or endorsed by Sony or Santa Monica Studio.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add animation class when elements come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, {threshold: 0.1});
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
