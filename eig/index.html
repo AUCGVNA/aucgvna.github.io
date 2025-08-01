@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIGSH Command Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .container {
+            column-count: 2;
+            column-gap: 2rem;
+        }
+        @media (max-width: 768px) {
+            .container {
+                column-count: 1;
+            }
+        }
+        .command-section {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+        }
+        .command-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        .command-line {
+            font-family: monospace;
+            background-color: #e5e7eb;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            white-space: pre-wrap; /* Allows long commands to wrap */
+        }
+        .description {
+            color: #4b5563;
+            margin-left: 1rem;
+            font-style: italic;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-10">
+
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">EIGSH Command Reference</h1>
+        <hr class="border-t-2 border-gray-300 mb-6" />
+
+        <div class="container">
+
+            <!-- Account Commands -->
+            <div class="command-section">
+                <h2 class="command-title">📂 `Account` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">abusetool &lt;cpanel|email|http|exim|script|cron&gt; &lt;enable|disable&gt; &lt;ticket-id&gt; &lt;domain&gt; [server] &lt;no_customer_notification&gt;</pre>
+                    <p class="description">→ Enable/disable services like cPanel/sites/emails/crons for an account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">backupdu &lt;domain|ipaddress|server&gt;</pre>
+                    <p class="description">→ Prints disk usage of a Dedi/VPS's cPanel backup directory.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">backupgen &lt;user&gt; &lt;server&gt; &lt;daily|weekly|monthly|bimonthly&gt; &lt;case-id&gt; &lt;email-id&gt;</pre>
+                    <p class="description">→ Generates backups for a particular user. Email ID must be a newfold one.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">bui &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Display domain/account billing information.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">checkcancel &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Displays last cPanel and FTP login times for an account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">checkrestrictions &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Shows all montool restrictions on an account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">cloudsearch &lt;cloudsite username&gt;</pre>
+                    <p class="description">→ Looks up information for a Cloudsites account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">countproc &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Check the current number of processes for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">cplogtable &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Summarized cPanel log as a table.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dcbackuplist &lt;user&gt; &lt;server&gt; [brand]</pre>
+                    <p class="description">→ List datacycle backups for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dcbackuprestore &lt;user&gt; &lt;daily/weekly/monthly/latam&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Restore datacycle backups for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dcfulldatarestore &lt;user&gt; &lt;daily/weekly/monthly&gt; &lt;server&gt; [--archived] [--notify=]</pre>
+                    <p class="description">→ Restores home directory and all MySQL databases.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dclistfiles &lt;user&gt; &lt;daily/weekly/monthly&gt; &lt;server&gt; &lt;path&gt; [--archived] [--partition=]</pre>
+                    <p class="description">→ Shows files/directories from backup at given path.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dcrestoremysqldb &lt;user&gt; &lt;server&gt; &lt;daily/weekly/biweekly/monthly&gt; &lt;dbname&gt; [--archived]</pre>
+                    <p class="description">→ Restores single MySQL database for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dcrestorepath &lt;user&gt; &lt;server&gt; &lt;daily/weekly/biweekly/monthly&gt; &lt;path&gt; [...]</pre>
+                    <p class="description">→ Restore file/directory from datacycle backups.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dcv &lt;domain&gt;</pre>
+                    <p class="description">→ Returns possible DCV email addresses for a domain.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dcviewfile &lt;user&gt; &lt;server&gt; &lt;daily/weekly/biweekly/monthly&gt; &lt;file path&gt;</pre>
+                    <p class="description">→ Print contents of a file from backup.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dedireset &lt;IP&gt;</pre>
+                    <p class="description">→ Reset the root password for a dedicated server.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">domlist &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Lists domains for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">forcessl &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Add HTTPS redirection code in `.htaccess`.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">gatorlookup &lt;email|domain&gt;</pre>
+                    <p class="description">→ Checks if a domain/email is a GATOR customer.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">inodes &lt;server&gt; &lt;path&gt;</pre>
+                    <p class="description">→ Show inode breakdown for a path.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">killproc &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Kill all current processes for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">maildirsize &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Generate default maildir size.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">master_check &lt;server&gt; &lt;domain&gt; &lt;ip&gt; &lt;option&gt;</pre>
+                    <p class="description">→ Master diagnostics with various options like `--all`, `--disk`, `--mail`, `--whois`, etc.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">ncdu &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Generate explorable directory tree by size for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">openport &lt;domain|server&gt; &lt;port&gt; &lt;ticket-id|chat-id|genesys-id&gt;</pre>
+                    <p class="description">→ Opens a port outbound globally on a server.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">overselltemp &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Temporarily allow reseller to oversell for 24 hours.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">restrict &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Apply htpasswd restriction to a customer account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">resusage &lt;reseller domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Print disk and bandwidth usage for a reseller.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">resuspend &lt;domain&gt; &lt;reason&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Suspend a reseller and all sub-accounts.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">reunsuspend &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Unsuspend a reseller and all sub-accounts.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">searchcpanel &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Search cPanel access logs.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">skipbackup &lt;user&gt; &lt;server&gt; &lt;vps|next|db&gt;</pre>
+                    <p class="description">→ Skip next backup for an account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">sloptout &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Opt user out from regular SiteLock scanning.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">suspbackup &lt;user&gt; &lt;ticket-id&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Creates a user-accessible backup.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">suspend &lt;domain&gt; &lt;reason&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Suspend a user. Reason must not contain spaces.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">testlogin &lt;server|ip|domain&gt; &lt;user&gt; &lt;password&gt;</pre>
+                    <p class="description">→ Test password of the account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">toswhitelist &lt;domain&gt; &lt;customer ip&gt; [server]</pre>
+                    <p class="description">→ Whitelist customer IP against TOS restrictions.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">ui &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Display domain/account information.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">unlimit &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Remove limits on an account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">unrestrict &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Remove htpasswd restriction on customer account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">unsuspend &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Unsuspend a user.</p>
+                </div>
+            </div>
+
+            <!-- Apache Commands -->
+            <div class="command-section">
+                <h2 class="command-title">🔥 `Apache` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">apacherestart &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Restarts Apache for a domain.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">awstats &lt;primary domain&gt; &lt;server&gt; [number of top results]</pre>
+                    <p class="description">→ Display top traffic from AWStats. 0 = this month.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">cachectl &lt;user&gt; &lt;on|off|status&gt; &lt;server&gt; &lt;reason&gt;</pre>
+                    <p class="description">→ Enable/disable/status of cache for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">checkautossl &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Check AutoSSL configuration for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">checksites &lt;domain|user&gt; &lt;-r|-u&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Check domains under a user or reseller for issues.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">createinfo &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Create a PHP info page in user's public_html.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">createini &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Create editable `php.ini` in user's home dir.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">disableuserdir &lt;user&gt; &lt;server&gt; [1]</pre>
+                    <p class="description">→ Disable userdir access. Optional 1 for immediate apply.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">edithtaccess &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Edit `.htaccess` file in user's account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">editini &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Find and edit all `php.ini` files for domain.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">listphphandlers &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ List all .htaccess, php.info, user.ini files.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">phpallow &lt;domain&gt; &lt;server&gt; &lt;52|53|...|all&gt;</pre>
+                    <p class="description">→ Allow user to choose deprecated PHP versions.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">purgecacheuser &lt;server&gt; &lt;user&gt;</pre>
+                    <p class="description">→ Purge cache on all domains for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">pwrestrict &lt;server&gt; &lt;user&gt; &lt;-b|-r&gt;</pre>
+                    <p class="description">→ Run pwrestrict on a LATAM shared account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">scoreboard &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Check Apache concurrent connections.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">sitereport &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Check and report common issues for an account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">sslinfo &lt;domain&gt; [server]</pre>
+                    <p class="description">→ Show SSL info for all domains under an account.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">uf &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Display all vhosts matching the domain.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">whitelist &lt;domain&gt; &lt;add|del&gt; &lt;server&gt; &lt;rule id&gt;</pre>
+                    <p class="description">→ Add or remove mod_security rule whitelist for a domain.</p>
+                </div>
+            </div>
+
+            <!-- Archivedlog, Bkprestore, Cpanel, DNS, Email, FTP, getdnszone, iskilled, malware_remove, misc Commands -->
+            <div class="command-section">
+                <h2 class="command-title">🗂️ `Archivedlog` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">archivedlog &lt;server&gt; &lt;domain&gt; &lt;cpaccess|loginlog|ftp|ssh|mail|mailaccess&gt;</pre>
+                    <p class="description">→ Fetch archived logs of specified type for domain/server.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`bkprestore` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">bkprestore [server] [User] [Ticket]</pre>
+                    <p class="description">→ Initiates full backup restore.</p>
+                </div>
+            </div>
+            
+            <div class="command-section">
+                <h2 class="command-title">`cPanel` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">acctsummary &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Summarizes account info like usage, domains, settings.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">bandwidth &lt;user|domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Shows bandwidth usage.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">cpconftool &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Repairs cPanel configuration.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">cpuserlogins &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Retrieves recent login activity for a user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">emailauth &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Displays DKIM/SPF status.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">enableapi &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Enables API token access.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">fixauthnlinks &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Fixes broken links in email authentication records.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">fixcpmysql &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Repairs MySQL-related permissions/files for cpanel user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">mailperm &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Resets mail folder/file permissions.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">quota &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Checks and repairs quota for the user.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">rebuildquotas &lt;server&gt;</pre>
+                    <p class="description">→ Recalculates disk quotas across accounts.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">suspendpkg &lt;package&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Suspends a package.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">upcp &lt;server&gt;</pre>
+                    <p class="description">→ Runs cPanel update script.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`DNS` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">checkdns &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Performs DNS consistency check.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dnscompare &lt;domain&gt; &lt;server1&gt; &lt;server2&gt;</pre>
+                    <p class="description">→ Compares DNS records between two servers.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">fixdns &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Repairs broken DNS entries.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">setrdns &lt;ip&gt; &lt;domain&gt;</pre>
+                    <p class="description">→ Sets reverse DNS entry.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">syncdns &lt;domain&gt; &lt;server1&gt; &lt;server2&gt;</pre>
+                    <p class="description">→ Syncs DNS zones.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`Email` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">checksmtp &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Tests SMTP sending capabilities.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">clearqueue &lt;server&gt;</pre>
+                    <p class="description">→ Empties mail queue.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">disablerewrite &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Disables sender rewriting.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">dkimrepair &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Repairs DKIM record.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">eximlog &lt;domain|email&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Shows email delivery log.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">fixspfrecord &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Repairs SPF DNS entry.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">mailq &lt;server&gt;</pre>
+                    <p class="description">→ Shows current mail queue.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">mailtrace &lt;email&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Traces mail path.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">spfrecord &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Displays SPF record.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`FTP` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">ftpinfo &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Displays FTP account info.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">ftpreset &lt;user&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Resets FTP access/config.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">ftpstatus &lt;server&gt;</pre>
+                    <p class="description">→ Shows FTP service status.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`getdnszone` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">getdnszone &lt;domain&gt;</pre>
+                    <p class="description">→ Displays full DNS zone.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`iskilled` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">iskilled &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Checks if domain was previously suspended/killed.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`malware_remove` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">malware_remove &lt;domain&gt; &lt;server&gt;</pre>
+                    <p class="description">→ Initiates malware scan and clean.</p>
+                </div>
+            </div>
+
+            <div class="command-section">
+                <h2 class="command-title">`Misc` Commands</h2>
+                <div class="mb-4">
+                    <pre class="command-line">checkports &lt;server&gt;</pre>
+                    <p class="description">→ Lists open/filtered ports.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">checkuptime &lt;server&gt;</pre>
+                    <p class="description">→ Displays system uptime.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">digcheck &lt;domain&gt;</pre>
+                    <p class="description">→ Performs DNS dig.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">portscan &lt;server&gt;</pre>
+                    <p class="description">→ Scans for open ports.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">syslog &lt;server&gt;</pre>
+                    <p class="description">→ Displays system log entries.</p>
+                </div>
+                <div class="mb-4">
+                    <pre class="command-line">version &lt;server&gt;</pre>
+                    <p class="description">→ Displays OS/cPanel/software versions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
