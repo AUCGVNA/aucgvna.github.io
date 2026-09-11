@@ -1,1 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EIGSH — Command Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12151b;
+    --bg-raised:#181c24;
+    --bg-card:#1c212a;
+    --bg-card-hover:#212633;
+    --border:#2a303c;
+    --border-soft:#232833;
+    --text:#dfe2e8;
+    --text-dim:#8991a1;
+    --text-faint:#5b6373;
+    --accent:#d9a441;
+    --accent-bright:#f0c069;
+    --accent-soft:rgba(217,164,65,0.10);
+    --accent-border:rgba(217,164,65,0.35);
+    --sans:'Space Grotesk', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+    --radius:6px;
+    --sidebar-w:268px;
+  }
 
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-soft);color:var(--accent-bright);}
+
+  a{color:inherit;}
+
+  /* ---------- Header ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; gap:14px;
+    padding:14px 20px;
+    background:rgba(18,21,27,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:8px;
+    font-family:var(--mono);
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:0.02em;
+    white-space:nowrap;
+    color:var(--accent-bright);
+  }
+  .brand small{
+    font-family:var(--sans);
+    color:var(--text-faint);
+    font-weight:400;
+    font-size:12px;
+  }
+  .menu-btn{
+    display:none;
+    background:none;border:1px solid var(--border);border-radius:var(--radius);
+    width:36px;height:36px;color:var(--text);cursor:pointer;
+    align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .menu-btn svg{width:18px;height:18px;}
+
+  .search-wrap{flex:1; max-width:560px; position:relative; margin-left:auto;}
+  .search-wrap input{
+    width:100%;
+    background:var(--bg-raised);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    color:var(--text);
+    font-family:var(--mono);
+    font-size:13.5px;
+    padding:9px 40px 9px 14px;
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .search-wrap input:focus{border-color:var(--accent-border);}
+  .search-wrap input::placeholder{color:var(--text-faint);}
+  .search-kbd{
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    font-family:var(--mono); font-size:11px; color:var(--text-faint);
+    border:1px solid var(--border); border-radius:4px; padding:1px 6px;
+    pointer-events:none;
+  }
+  .result-count{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    white-space:nowrap; margin-left:6px;
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns:var(--sidebar-w) 1fr;
+    align-items:start;
+    max-width:1280px;
+    margin:0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    position:sticky; top:61px;
+    height:calc(100vh - 61px);
+    overflow-y:auto;
+    padding:20px 10px 40px 20px;
+    border-right:1px solid var(--border-soft);
+  }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+  .sidebar-title{
+    font-size:11px; color:var(--text-faint); font-weight:500;
+    margin:4px 0 10px 6px; letter-spacing:0.03em;
+  }
+  .cat-list{list-style:none; margin:0; padding:0;}
+  .cat-item{margin-bottom:2px;}
+  .cat-link{
+    display:flex; align-items:center; gap:10px;
+    padding:8px 8px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    cursor:pointer;
+    color:var(--text-dim);
+    font-size:13.5px;
+    transition:background .12s ease, color .12s ease;
+  }
+  .cat-link:hover{background:var(--bg-card); color:var(--text);}
+  .cat-link.active{background:var(--accent-soft); color:var(--accent-bright);}
+  .cat-tag{
+    font-family:var(--mono); font-size:10.5px; font-weight:600;
+    width:26px; height:20px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--border); border-radius:4px;
+    color:var(--text-faint);
+  }
+  .cat-link.active .cat-tag, .cat-link:hover .cat-tag{color:var(--accent);border-color:var(--accent-border);}
+  .cat-name{flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .cat-count{font-family:var(--mono); font-size:11px; color:var(--text-faint);}
+
+  /* mobile drawer state */
+  .sidebar-overlay{display:none;}
+
+  /* ---------- Main ---------- */
+  main{padding:32px 32px 80px;min-width:0;}
+
+  .hero{margin-bottom:34px; max-width:640px;}
+  .hero h1{
+    font-size:28px; margin:0 0 10px; font-weight:600; letter-spacing:-0.01em;
+    color:#fff;
+  }
+  .hero p{
+    color:var(--text-dim); font-size:14.5px; line-height:1.6; margin:0 0 18px;
+  }
+  .hero-stats{display:flex; gap:26px; font-family:var(--mono);}
+  .hero-stat b{display:block; font-size:20px; color:var(--accent-bright); font-weight:600;}
+  .hero-stat span{font-size:11px; color:var(--text-faint);}
+
+  .cat-section{margin-bottom:40px; scroll-margin-top:76px;}
+  .cat-section-head{
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .cat-section-head .cat-tag{
+    font-family:var(--mono); font-size:11px; font-weight:600;
+    padding:3px 7px; border:1px solid var(--accent-border); border-radius:4px;
+    color:var(--accent);
+  }
+  .cat-section-head h2{
+    font-size:16px; margin:0; font-weight:600; color:var(--text);
+  }
+  .cat-section-head .cat-total{
+    margin-left:auto; font-family:var(--mono); font-size:11.5px; color:var(--text-faint);
+  }
+
+  .cmd-grid{display:grid; gap:10px;}
+
+  .cmd-card{
+    background:var(--bg-card);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .cmd-card:hover{border-color:var(--border); background:var(--bg-card-hover);}
+
+  .cmd-row{display:flex; align-items:flex-start; gap:10px;}
+  .cmd-syntax{
+    flex:1;
+    font-family:var(--mono);
+    font-size:13px;
+    line-height:1.6;
+    color:#c9d6e8;
+    word-break:break-word;
+  }
+  .cmd-syntax .cmd-name{color:var(--accent-bright); font-weight:600;}
+  .cmd-syntax .arg{color:var(--text-dim);}
+  mark{background:var(--accent-soft); color:var(--accent-bright); border-radius:2px; padding:0 1px;}
+
+  .copy-btn{
+    flex-shrink:0;
+    background:none;
+    border:1px solid var(--border);
+    border-radius:4px;
+    width:28px; height:28px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--text-faint);
+    cursor:pointer;
+    transition:border-color .12s ease, color .12s ease;
+  }
+  .copy-btn:hover{color:var(--accent); border-color:var(--accent-border);}
+  .copy-btn svg{width:14px; height:14px;}
+  .copy-btn.copied{color:#6fcf97; border-color:#6fcf97;}
+
+  .cmd-desc{
+    margin-top:6px;
+    font-size:13px;
+    color:var(--text-dim);
+    line-height:1.5;
+  }
+
+  .empty-state{
+    text-align:center; padding:80px 20px; color:var(--text-faint);
+  }
+  .empty-state svg{width:34px;height:34px;margin-bottom:14px;opacity:.5;}
+  .empty-state p{font-size:14px; margin:0;}
+
+  footer{
+    padding:24px 32px 50px; color:var(--text-faint); font-size:12px;
+    border-top:1px solid var(--border-soft);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .layout{grid-template-columns:1fr;}
+    .menu-btn{display:flex;}
+    .sidebar{
+      position:fixed; top:0; left:0; bottom:0; z-index:80;
+      width:82vw; max-width:300px;
+      background:var(--bg-raised);
+      border-right:1px solid var(--border);
+      transform:translateX(-105%);
+      transition:transform .22s ease;
+      padding-top:70px;
+      height:100vh;
+    }
+    .sidebar.open{transform:translateX(0);}
+    .sidebar-overlay{
+      display:none; position:fixed; inset:0; z-index:70;
+      background:rgba(0,0,0,0.5);
+    }
+    .sidebar-overlay.open{display:block;}
+    main{padding:24px 18px 60px;}
+    .hero h1{font-size:23px;}
+    .search-wrap{max-width:none;}
+    .search-kbd{display:none;}
+    .result-count{display:none;}
+  }
+
+  @media (max-width: 480px){
+    .topbar{padding:12px 14px; gap:10px;}
+    .brand small{display:none;}
+    .cmd-row{flex-direction:row;}
+    .hero-stats{gap:18px;}
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap;
+  }
+
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle category menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="brand">eigsh<small>command reference</small></div>
+  <div class="search-wrap">
+    <label for="search" class="visually-hidden">Search commands</label>
+    <input id="search" type="text" placeholder="Search commands, arguments, descriptions…" autocomplete="off">
+    <span class="search-kbd">/</span>
+  </div>
+  <span class="result-count" id="resultCount"></span>
+</div>
+
+<div class="sidebar-overlay" id="overlay"></div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-title">Categories</div>
+    <ul class="cat-list" id="catList"></ul>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <h1>EIGSH command reference</h1>
+      <p>A searchable index of shell commands for managing hosting accounts, servers and infrastructure — organized by category, with copyable syntax for every entry.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><b id="statCommands">0</b><span>commands</span></div>
+        <div class="hero-stat"><b id="statCategories">0</b><span>categories</span></div>
+      </div>
+    </div>
+
+    <div id="content"></div>
+
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+      <p>No commands match your search.</p>
+    </div>
+  </main>
+</div>
+
+<footer>Reference data sourced from the original EIGSH documentation. Not an official tool interface — for lookup purposes only.</footer>
+
+<script>
+const CATEGORIES = [
+  {key:"account", name:"Account", tag:"AC"},
+  {key:"apache", name:"Apache", tag:"AP"},
+  {key:"archivedlog", name:"Archivedlog", tag:"AR"},
+  {key:"bkprestore", name:"bkprestore", tag:"BK"},
+  {key:"cpanel", name:"cPanel", tag:"CP"},
+  {key:"dns", name:"DNS", tag:"DN"},
+  {key:"email", name:"Email", tag:"EM"},
+  {key:"ftp", name:"FTP", tag:"FT"},
+  {key:"getdnszone", name:"getdnszone", tag:"GZ"},
+  {key:"iskilled", name:"iskilled", tag:"IK"},
+  {key:"malware_remove", name:"malware_remove", tag:"MW"},
+  {key:"misc", name:"Misc", tag:"MS"},
+];
+
+const DATA = [
+// Account
+["account","abusetool","abusetool <cpanel|email|http|exim|script|cron> <enable|disable> <ticket-id> <domain> [server] <no_customer_notification>","Enable/disable services like cPanel/sites/emails/crons for an account."],
+["account","backupdu","backupdu <domain|ipaddress|server>","Prints disk usage of a Dedi/VPS's cPanel backup directory."],
+["account","backupgen","backupgen <user> <server> <daily|weekly|monthly|bimonthly> <case-id> <email-id>","Generates backups for a particular user. Email ID must be a newfold one."],
+["account","bui","bui <domain> [server]","Display domain/account billing information."],
+["account","checkcancel","checkcancel <user> <server>","Displays last cPanel and FTP login times for an account."],
+["account","checkrestrictions","checkrestrictions <domain> [server]","Shows all montool restrictions on an account."],
+["account","cloudsearch","cloudsearch <cloudsite username>","Looks up information for a Cloudsites account."],
+["account","countproc","countproc <domain> [server]","Check the current number of processes for a user."],
+["account","cplogtable","cplogtable <domain> <server>","Summarized cPanel log as a table."],
+["account","dcbackuplist","dcbackuplist <user> <server> [brand]","List datacycle backups for a user."],
+["account","dcbackuprestore","dcbackuprestore <user> <daily/weekly/monthly/latam> <server>","Restore datacycle backups for a user."],
+["account","dcfulldatarestore","dcfulldatarestore <user> <daily/weekly/monthly> <server> [--archived] [--notify=]","Restores home directory and all MySQL databases."],
+["account","dclistfiles","dclistfiles <user> <daily/weekly/monthly> <server> <path> [--archived] [--partition=]","Shows files/directories from backup at given path."],
+["account","dcrestoremysqldb","dcrestoremysqldb <user> <server> <daily/weekly/biweekly/monthly> <dbname> [--archived]","Restores single MySQL database for a user."],
+["account","dcrestorepath","dcrestorepath <user> <server> <daily/weekly/biweekly/monthly> <path> [...]","Restore file/directory from datacycle backups."],
+["account","dcv","dcv <domain>","Returns possible DCV email addresses for a domain."],
+["account","dcviewfile","dcviewfile <user> <server> <daily/weekly/biweekly/monthly> <file path>","Print contents of a file from backup."],
+["account","dedireset","dedireset <IP>","Reset the root password for a dedicated server."],
+["account","domlist","domlist <user> <server>","Lists domains for a user."],
+["account","forcessl","forcessl <domain> <server>","Add HTTPS redirection code in .htaccess."],
+["account","gatorlookup","gatorlookup <email|domain>","Checks if a domain/email is a GATOR customer."],
+["account","inodes","inodes <server> <path>","Show inode breakdown for a path."],
+["account","killproc","killproc <domain> <server>","Kill all current processes for a user."],
+["account","maildirsize","maildirsize <user> <server>","Generate default maildir size."],
+["account","master_check","master_check <server> <domain> <ip> <option>","Master diagnostics with various options like --all, --disk, --mail, --whois, etc."],
+["account","ncdu","ncdu <domain> [server]","Generate explorable directory tree by size for a user."],
+["account","openport","openport <domain|server> <port> <ticket-id|chat-id|genesys-id>","Opens a port outbound globally on a server."],
+["account","overselltemp","overselltemp <domain> [server]","Temporarily allow reseller to oversell for 24 hours."],
+["account","restrict","restrict <domain> [server]","Apply htpasswd restriction to a customer account."],
+["account","resusage","resusage <reseller domain> <server>","Print disk and bandwidth usage for a reseller."],
+["account","resuspend","resuspend <domain> <reason> <server>","Suspend a reseller and all sub-accounts."],
+["account","reunsuspend","reunsuspend <domain> <server>","Unsuspend a reseller and all sub-accounts."],
+["account","searchcpanel","searchcpanel <domain> [server]","Search cPanel access logs."],
+["account","skipbackup","skipbackup <user> <server> <vps|next|db>","Skip next backup for an account."],
+["account","sloptout","sloptout <domain> [server]","Opt user out from regular SiteLock scanning."],
+["account","suspbackup","suspbackup <user> <ticket-id> <server>","Creates a user-accessible backup."],
+["account","suspend","suspend <domain> <reason> <server>","Suspend a user. Reason must not contain spaces."],
+["account","testlogin","testlogin <server|ip|domain> <user> <password>","Test password of the account."],
+["account","toswhitelist","toswhitelist <domain> <customer ip> [server]","Whitelist customer IP against TOS restrictions."],
+["account","ui","ui <domain> [server]","Display domain/account information."],
+["account","unlimit","unlimit <domain> [server]","Remove limits on an account."],
+["account","unrestrict","unrestrict <domain> [server]","Remove htpasswd restriction on customer account."],
+["account","unsuspend","unsuspend <domain> <server>","Unsuspend a user."],
+// Apache
+["apache","apacherestart","apacherestart <domain> <server>","Restarts Apache for a domain."],
+["apache","awstats","awstats <primary domain> <server> [number of top results]","Display top traffic from AWStats. 0 = this month."],
+["apache","cachectl","cachectl <user> <on|off|status> <server> <reason>","Enable/disable/status of cache for a user."],
+["apache","checkautossl","checkautossl <user> <server>","Check AutoSSL configuration for a user."],
+["apache","checksites","checksites <domain|user> <-r|-u> <server>","Check domains under a user or reseller for issues."],
+["apache","createinfo","createinfo <domain> <server>","Create a PHP info page in user's public_html."],
+["apache","createini","createini <domain> <server>","Create editable php.ini in user's home dir."],
+["apache","disableuserdir","disableuserdir <user> <server> [1]","Disable userdir access. Optional 1 for immediate apply."],
+["apache","edithtaccess","edithtaccess <domain> <server>","Edit .htaccess file in user's account."],
+["apache","editini","editini <domain> <server>","Find and edit all php.ini files for domain."],
+["apache","listphphandlers","listphphandlers <domain> <server>","List all .htaccess, php.info, user.ini files."],
+["apache","phpallow","phpallow <domain> <server> <52|53|54|55|56|70|71|all>","Allow user to choose deprecated PHP versions."],
+["apache","purgecacheuser","purgecacheuser <server> <user>","Purge cache on all domains for a user."],
+["apache","pwrestrict","pwrestrict <server> <user> <-b|-r>","Run pwrestrict on a LATAM shared account."],
+["apache","scoreboard","scoreboard <domain> <server>","Check Apache concurrent connections."],
+["apache","sitereport","sitereport <domain> <server>","Check and report common issues for an account."],
+["apache","sslinfo","sslinfo <domain> [server]","Show SSL info for all domains under an account."],
+["apache","uf","uf <domain> <server>","Display all vhosts matching the domain."],
+["apache","whitelist","whitelist <domain> <add|del> <server> <rule id>","Add or remove mod_security rule whitelist for a domain."],
+// Archivedlog
+["archivedlog","archivedlog","archivedlog <server> <domain> <cpaccess|loginlog|ftp|ssh|mail|mailaccess>","Fetch archived logs of specified type for domain/server."],
+// bkprestore
+["bkprestore","bkprestore","bkprestore [server] [User] [Ticket]","Initiates full backup restore."],
+// cPanel
+["cpanel","acctsummary","acctsummary <user> <server>","Summarizes account info like usage, domains, settings."],
+["cpanel","bandwidth","bandwidth <user|domain> <server>","Shows bandwidth usage."],
+["cpanel","cpconftool","cpconftool <domain> <server>","Repairs cPanel configuration."],
+["cpanel","cpuserlogins","cpuserlogins <user> <server>","Retrieves recent login activity for a user."],
+["cpanel","emailauth","emailauth <domain> <server>","Displays DKIM/SPF status."],
+["cpanel","enableapi","enableapi <user> <server>","Enables API token access."],
+["cpanel","fixauthnlinks","fixauthnlinks <user> <server>","Fixes broken links in email authentication records."],
+["cpanel","fixcpmysql","fixcpmysql <user> <server>","Repairs MySQL-related permissions/files for cpanel user."],
+["cpanel","mailperm","mailperm <user> <server>","Resets mail folder/file permissions."],
+["cpanel","quota","quota <user> <server>","Checks and repairs quota for the user."],
+["cpanel","rebuildquotas","rebuildquotas <server>","Recalculates disk quotas across accounts."],
+["cpanel","suspendpkg","suspendpkg <package> <server>","Suspends a package."],
+["cpanel","upcp","upcp <server>","Runs cPanel update script."],
+// DNS
+["dns","checkdns","checkdns <domain> <server>","Performs DNS consistency check."],
+["dns","dnscompare","dnscompare <domain> <server1> <server2>","Compares DNS records between two servers."],
+["dns","fixdns","fixdns <domain> <server>","Repairs broken DNS entries."],
+["dns","setrdns","setrdns <ip> <domain>","Sets reverse DNS entry."],
+["dns","syncdns","syncdns <domain> <server1> <server2>","Syncs DNS zones."],
+// Email
+["email","checksmtp","checksmtp <domain> <server>","Tests SMTP sending capabilities."],
+["email","clearqueue","clearqueue <server>","Empties mail queue."],
+["email","disablerewrite","disablerewrite <user> <server>","Disables sender rewriting."],
+["email","dkimrepair","dkimrepair <domain> <server>","Repairs DKIM record."],
+["email","eximlog","eximlog <domain|email> <server>","Shows email delivery log."],
+["email","fixspfrecord","fixspfrecord <domain> <server>","Repairs SPF DNS entry."],
+["email","mailq","mailq <server>","Shows current mail queue."],
+["email","mailtrace","mailtrace <email> <server>","Traces mail path."],
+["email","spfrecord","spfrecord <domain> <server>","Displays SPF record."],
+// FTP
+["ftp","ftpinfo","ftpinfo <domain> <server>","Displays FTP account info."],
+["ftp","ftpreset","ftpreset <user> <server>","Resets FTP access/config."],
+["ftp","ftpstatus","ftpstatus <server>","Shows FTP service status."],
+// getdnszone
+["getdnszone","getdnszone","getdnszone <domain>","Displays full DNS zone."],
+// iskilled
+["iskilled","iskilled","iskilled <domain> <server>","Checks if domain was previously suspended/killed."],
+// malware_remove
+["malware_remove","malware_remove","malware_remove <domain> <server>","Initiates malware scan and clean."],
+// Misc
+["misc","checkports","checkports <server>","Lists open/filtered ports."],
+["misc","checkuptime","checkuptime <server>","Displays system uptime."],
+["misc","digcheck","digcheck <domain>","Performs DNS dig."],
+["misc","portscan","portscan <server>","Scans for open ports."],
+["misc","syslog","syslog <server>","Displays system log entries."],
+["misc","version","version <server>","Displays OS/cPanel/software versions."],
+];
+
+const catMeta = Object.fromEntries(CATEGORIES.map(c => [c.key, c]));
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function highlight(text, q){
+  const esc = escapeHtml(text);
+  if(!q) return esc;
+  const escQ = escapeHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return esc.replace(new RegExp(escQ, 'ig'), m => `<mark>${m}</mark>`);
+}
+
+function formatSyntax(cmd, syntax, q){
+  // syntax starts with the command name; style it, then the rest
+  const rest = syntax.slice(cmd.length);
+  return `<span class="cmd-name">${highlight(cmd,q)}</span><span class="arg">${highlight(rest,q)}</span>`;
+}
+
+const content = document.getElementById('content');
+const catList = document.getElementById('catList');
+const emptyState = document.getElementById('emptyState');
+const resultCount = document.getElementById('resultCount');
+const searchInput = document.getElementById('search');
+
+document.getElementById('statCommands').textContent = DATA.length;
+document.getElementById('statCategories').textContent = CATEGORIES.length;
+
+// Build sidebar
+CATEGORIES.forEach(cat => {
+  const count = DATA.filter(d => d[0] === cat.key).length;
+  const li = document.createElement('li');
+  li.className = 'cat-item';
+  li.innerHTML = `
+    <a class="cat-link" href="#cat-${cat.key}" data-cat="${cat.key}">
+      <span class="cat-tag">${cat.tag}</span>
+      <span class="cat-name">${cat.name}</span>
+      <span class="cat-count" data-count="${cat.key}">${count}</span>
+    </a>`;
+  catList.appendChild(li);
+});
+
+function render(query){
+  const q = (query || '').trim().toLowerCase();
+  content.innerHTML = '';
+  let totalShown = 0;
+
+  CATEGORIES.forEach(cat => {
+    const items = DATA.filter(d => {
+      if(d[0] !== cat.key) return false;
+      if(!q) return true;
+      return d[1].toLowerCase().includes(q) || d[2].toLowerCase().includes(q) || d[3].toLowerCase().includes(q);
+    });
+
+    const countEl = document.querySelector(`[data-count="${cat.key}"]`);
+    if(countEl) countEl.textContent = items.length;
+
+    if(items.length === 0) return;
+    totalShown += items.length;
+
+    const section = document.createElement('section');
+    section.className = 'cat-section';
+    section.id = `cat-${cat.key}`;
+
+    const head = document.createElement('div');
+    head.className = 'cat-section-head';
+    head.innerHTML = `<span class="cat-tag">${cat.tag}</span><h2>${cat.name}</h2><span class="cat-total">${items.length} command${items.length === 1 ? '' : 's'}</span>`;
+    section.appendChild(head);
+
+    const grid = document.createElement('div');
+    grid.className = 'cmd-grid';
+
+    items.forEach(([catKey, cmd, syntax, desc]) => {
+      const card = document.createElement('div');
+      card.className = 'cmd-card';
+      card.innerHTML = `
+        <div class="cmd-row">
+          <div class="cmd-syntax">${formatSyntax(cmd, syntax, q)}</div>
+          <button class="copy-btn" type="button" aria-label="Copy command" data-syntax="${escapeHtml(syntax)}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+        <div class="cmd-desc">${highlight(desc, q)}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    content.appendChild(section);
+  });
+
+  emptyState.style.display = totalShown === 0 ? 'block' : 'none';
+  resultCount.textContent = q ? `${totalShown} of ${DATA.length}` : `${DATA.length} commands`;
+}
+
+render('');
+
+searchInput.addEventListener('input', e => render(e.target.value));
+
+document.addEventListener('keydown', e => {
+  if(e.key === '/' && document.activeElement !== searchInput){
+    e.preventDefault();
+    searchInput.focus();
+  }
+  if(e.key === 'Escape' && document.activeElement === searchInput){
+    searchInput.blur();
+  }
+});
+
+// Copy to clipboard
+content.addEventListener('click', e => {
+  const btn = e.target.closest('.copy-btn');
+  if(!btn) return;
+  const text = btn.getAttribute('data-syntax');
+  navigator.clipboard?.writeText(text).then(() => {
+    btn.classList.add('copied');
+    const original = btn.innerHTML;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = original; }, 1200);
+  }).catch(() => {});
+});
+
+// Active category highlighting via scroll
+const sections = () => Array.from(document.querySelectorAll('.cat-section'));
+const links = () => Array.from(document.querySelectorAll('.cat-link'));
+
+function setActive(key){
+  links().forEach(l => l.classList.toggle('active', l.dataset.cat === key));
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      setActive(entry.target.id.replace('cat-',''));
+    }
+  });
+}, { rootMargin: '-80px 0px -70% 0px' });
+
+function observeSections(){
+  sections().forEach(s => observer.observe(s));
+}
+observeSections();
+// re-observe after searches rebuild the DOM
+const mo = new MutationObserver(() => { observer.disconnect(); observeSections(); });
+mo.observe(content, { childList: true });
+
+// Mobile sidebar
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const menuBtn = document.getElementById('menuBtn');
+
+function closeSidebar(){
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+function openSidebar(){
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+menuBtn.addEventListener('click', () => {
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+overlay.addEventListener('click', closeSidebar);
+catList.addEventListener('click', e => {
+  if(e.target.closest('.cat-link') && window.innerWidth <= 860) closeSidebar();
+});
+</script>
+</body>
+</html>
